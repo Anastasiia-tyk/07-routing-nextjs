@@ -16,7 +16,12 @@ import NoteList from "@/components/NoteList/NoteList";
 import NoteForm from "@/components/NoteForm/NoteForm";
 import Modal from "@/components/Modal/Modal";
 
-export default function Notes() {
+
+interface NotesClientProps {
+    tag: string;
+}
+
+export default function Notes({ tag }: NotesClientProps) {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -24,8 +29,8 @@ export default function Notes() {
     const perPage = 12;
 
     const { data } = useQuery({
-        queryKey: ["notes", currentPage, searchQuery],
-        queryFn: () => fetchNotes(currentPage, perPage, searchQuery),
+        queryKey: ["notes", currentPage, searchQuery, tag],
+        queryFn: () => fetchNotes(currentPage, perPage, searchQuery, tag),
         placeholderData: keepPreviousData,
     });
 
