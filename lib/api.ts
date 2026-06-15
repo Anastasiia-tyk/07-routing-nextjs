@@ -16,8 +16,9 @@ export interface CreateNoteInput {
 
 const BASE_URL = "https://notehub-public.goit.study/api/notes";
 
-export const fetchNotes = async (page: number = 1, perPage: number = 12, search: string = ""): Promise<FetchNotesResponse> => {
+export const fetchNotes = async (page: number = 1, perPage: number = 12, search: string = "", tag: string = ""): Promise<FetchNotesResponse> => {
     const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
+    const tagParam = !tag || tag === 'all' ? undefined : tag;
 
     const response = await axios.get<FetchNotesResponse>(
         BASE_URL,
@@ -28,7 +29,8 @@ export const fetchNotes = async (page: number = 1, perPage: number = 12, search:
             params: {
                 page,
                 perPage,
-                search: search || undefined
+                search: search || undefined,
+                tag: tagParam
             }
         }
     );
